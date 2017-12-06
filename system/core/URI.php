@@ -1,12 +1,16 @@
 <?php
 class FavCI_URI
 {
+	// URI字符串
 	public $uri_string = '';
 
+	// URI列表
 	public $segments = array();
 
+	// URI段允许的字符
 	protected $_permitted_uri_chars = 'a-z 0-9~%.:_\-i@';
 
+	// URI路由列表
 	public $rsegments = array();
 
 	public function __construct()
@@ -58,11 +62,10 @@ class FavCI_URI
 		{
 			return '/';
 		}
-		// Do some final cleaning of the URI and return it
 		return $this->_remove_relative_directory($uri);
 	}
 
-	// // 去除目录符号
+	// 去除目录符号
 	protected function _remove_relative_directory($uri)
 	{
 		$uris = array();
@@ -78,20 +81,18 @@ class FavCI_URI
 		return implode('/', $uris);
 	}
 
-	// // 设置uri字符串
+	// 设置uri字符串
 	protected function _set_uri_string($str)
 	{
-		// Filter out control characters and trim slashes
+		// 过滤掉特殊字符
 		$this->uri_string = trim(remove_invisible_characters($str, FALSE), '/');
 
 		if ($this->uri_string !== '')
 		{
 			$this->segments[0] = NULL;
-			// Populate the segments array
 			foreach (explode('/', trim($this->uri_string, '/')) as $val)
 			{
 				$val = trim($val);
-				// Filter segments for security
 				$this->filter_uri($val);
 
 				if ($val !== '')

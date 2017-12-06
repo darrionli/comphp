@@ -8,4 +8,6 @@ define('APPPATH', BASEPATH . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR);
 
 define('SYSPATH', BASEPATH . DIRECTORY_SEPARATOR . 'system' . DIRECTORY_SEPARATOR);
 
+define('VIEWPATH', APPPATH . 'views');
+
 require_once SYSPATH . 'core/FavCI.php';

@@ -6,6 +6,12 @@ $URI =& load_class('URI', 'core');
 
 $RTR =& load_class('Router', 'core');
 
+require_once(SYSPATH.'core/Controller.php');
+function &get_instance()
+{
+	return FavCI_Controller::get_instance();
+}
+
 $e404 = FALSE;
 $class = ucfirst($RTR->class);
 $method = $RTR->method;
@@ -37,6 +43,9 @@ if($e404){
 	exit('Not Found!');
 }
 
-$param = ['Hello'];
+// 获取url参数
+$params = array_slice($URI->rsegments, 2);
+
 $FavCI = new $class();
-call_user_func_array([&$FavCI, $method], $param);
+
+call_user_func_array([&$FavCI, $method], $params);

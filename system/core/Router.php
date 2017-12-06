@@ -4,14 +4,19 @@
 */
 class FavCI_Router
 {
+	// 路由列表
 	public $route = array();
 
+	// 类
 	public $class = '';
 
+	// 方法
 	public $method = 'index';
 
+	// 目录
 	public $directory;
 
+	// 默认控制器
 	public $default_controller;
 
 	public $translate_uri_dashes = FALSE;
@@ -24,8 +29,26 @@ class FavCI_Router
 
 	protected function _set_routing()
 	{
-		$this->default_controller = 'welcome';
-		$this->_parse_routes();
+		if(file_exists(APPPATH . 'config/routes.php')){
+			include(APPPATH.'config/routes.php');
+		}
+
+		if (isset($route) && is_array($route))
+		{
+			isset($route['default_controller']) && $this->default_controller = $route['default_controller'];
+			isset($route['translate_uri_dashes']) && $this->translate_uri_dashes = $route['translate_uri_dashes'];
+			unset($route['default_controller'], $route['translate_uri_dashes']);
+			$this->routes = $route;
+		}
+
+		if ($this->uri->uri_string !== '')
+		{
+			$this->_parse_routes();
+		}
+		else
+		{
+			$this->_set_default_controller();
+		}
 	}
 
 	protected function _parse_routes()
@@ -36,8 +59,6 @@ class FavCI_Router
 	protected function _set_request($segments = array())
 	{
 		$segments = $this->_validate_request($segments);
-		// If we don't have any segments left - try the default controller;
-		// WARNING: Directories get shifted out of the segments array!
 		if (empty($segments))
 		{
 			$this->_set_default_controller();
@@ -68,13 +89,11 @@ class FavCI_Router
 		$this->uri->rsegments = $segments;
 	}
 
+	// 提取并设置URI中的目录部分
 	protected function _validate_request($segments)
 	{
 		$c = count($segments);
 		$directory_override = isset($this->directory);
-
-		// Loop through our segments and return as soon as a controller
-		// is found or when such a directory doesn't exist
 		while ($c-- > 0)
 		{
 			$test = $this->directory
@@ -91,10 +110,10 @@ class FavCI_Router
 			return $segments;
 		}
 
-		// This means that all segments were actually directories
 		return $segments;
 	}
 
+	// 设置默认的控制器
 	protected function _set_default_controller()
 	{
 		if (empty($this->default_controller))
@@ -102,7 +121,6 @@ class FavCI_Router
 			exit('Unable to determine what should be displayed. A default route has not been specified in the routing file.');
 		}
 
-		// Is the method being specified?
 		if (sscanf($this->default_controller, '%[^/]/%s', $class, $method) !== 2)
 		{
 			$method = 'index';
@@ -117,7 +135,6 @@ class FavCI_Router
 		$this->set_class($class);
 		$this->set_method($method);
 
-		// Assign routed segments, index starting from 1
 		$this->uri->rsegments = array(
 			1 => $class,
 			2 => $method
@@ -144,10 +161,6 @@ class FavCI_Router
 
 	/**
 	 * Set directory name
-	 *
-	 * @param	string	$dir	Directory name
-	 * @param	bool	$append	Whether we're appending rather than setting the full value
-	 * @return	void
 	 */
 	public function set_directory($dir, $append = FALSE)
 	{

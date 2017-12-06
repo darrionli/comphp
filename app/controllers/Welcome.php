@@ -1,9 +1,9 @@
 <?php
-class Welcome
+class Welcome extends FavCI_Controller
 {
 	function __construct()
 	{
-		# code...
+		parent::__construct();
 	}
 
 	public function index(){
