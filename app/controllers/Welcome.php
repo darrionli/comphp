@@ -7,6 +7,6 @@ class Welcome extends FavCI_Controller
 	}
 
 	public function index(){
-		echo 111;
+		$this->load->view('welcome/index',array('a'=>'hello word'));
 	}
 }
