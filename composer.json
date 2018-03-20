@@ -1,0 +1,13 @@
+{
+    "name": "darrionli/comphp",
+    "description": "a test php framework",
+    "authors": [
+        {
+            "name": "lidi",
+            "email": "lidi0903@163.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "1.0.*"
+    }
+}
