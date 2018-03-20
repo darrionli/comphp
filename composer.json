@@ -8,6 +8,15 @@
         }
     ],
     "require": {
-        "monolog/monolog": "1.0.*"
+        
+    },
+    "autoload":{
+        "files":[
+            "core/functions.php"
+        ],
+        "psr-4":{
+            "core\\":"core/",
+            "app\\":"app/"
+        }
     }
 }
