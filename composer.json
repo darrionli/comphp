@@ -8,11 +8,11 @@
         }
     ],
     "require": {
-        
+
     },
     "autoload":{
         "files":[
-            "core/functions.php"
+            "core/Common.php"
         ],
         "psr-4":{
             "core\\":"core/",

@@ -1,9 +1,9 @@
 <?php
-namespace app;
+namespace app\controller;
 
 class Index
 {
-	public function show()
+	public function index()
 	{
 		echo 'hello';
 	}
