@@ -1,13 +1,13 @@
 <?php
 namespace core;
 
-use core;
+use core\Uri;
 
 class Bootstrap
 {
 	public static function run()
 	{
-		Uri::parseUrl();
+		// Uri::parseUrl();
 		self::parseUrl();
 	}
 
@@ -23,8 +23,8 @@ class Bootstrap
 		$class = isset($segment[2]) ? ucfirst($segment[2]) : 'Index';
 		$method = isset($segment[3]) ? $segment[3] : 'index';
 		$class = "\app\controller\\" . $class;
-		// (new $class)->$method();
-		call_user_func([(new $class), $method]);
+		echo (new $class)->$method();
+		// call_user_func([(new $class), $method]);
 	}
 
 	// 解析URI，并修复查询字符串
